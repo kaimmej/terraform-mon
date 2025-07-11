@@ -19,3 +19,10 @@ jobs:
       - name: Sts GetCallerIdentity
         run: |
           aws sts get-caller-identity
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.12.2"
+      - run: terraform init
+      - id: apply
+        run: terraform apply -auto-approve
+
