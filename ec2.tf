@@ -18,6 +18,7 @@ resource "aws_security_group" "open" {
   name        = "ec2-open-ssh"
   description = "open to the world"
   vpc_id      = data.aws_vpc.default.id
+
 }
 
 resource "aws_vpc_security_group_ingress_rule" "open-ssh" {

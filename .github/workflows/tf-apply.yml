@@ -1,0 +1,19 @@
+name: tf-apply.yml
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  plan_and_apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          aws-region: us-west-2
+          role-session-name: terraform-mon
+          role-to-assume: ${{ vars.IAM_ROLE_ARN }}
+      - name: Sts GetCallerIdentity
+        run: |
+          aws sts get-caller-identity
