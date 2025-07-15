@@ -14,10 +14,10 @@ resource "aws_instance" "minimal-instance" {
   vpc_security_group_ids = [aws_security_group.open.id]
   user_data_replace_on_change = true
   user_data = <<EOF
-  #!/bin/bash
-  sudo service docker start
-  docker run -d -p 80:80 nginx
-  EOF
+#!/bin/bash
+service docker start
+docker run -d -p 80:80 nginx
+EOF
 }
 
 resource "aws_security_group" "open" {
