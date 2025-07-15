@@ -8,10 +8,16 @@ resource "aws_key_pair" "public" {
   public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOwp+5sSt53+244HeH6l1ZCM+jsEX3woB+K8Noi1eenZ"
 }
 resource "aws_instance" "minimal-instance" {
-  ami                    = "ami-0d70ce345c8086fe8"
+  ami                    = "ami-094440448bb7e69f6"
   instance_type          = "t4g.small"
   key_name               = aws_key_pair.public.key_name
   vpc_security_group_ids = [aws_security_group.open.id]
+  user_data_replace_on_change = true
+  user_data = <<EOF
+  #!/bin/bash
+  sudo service docker start
+  docker run -d -p 80:80 nginx
+  EOF
 }
 
 resource "aws_security_group" "open" {
@@ -28,5 +34,19 @@ resource "aws_vpc_security_group_ingress_rule" "open-ssh" {
   to_port     = 22
   ip_protocol = "tcp"
   cidr_ipv4   = "0.0.0.0/0"
+}
 
+resource "aws_vpc_security_group_ingress_rule" "nginx-port" {
+  security_group_id = aws_security_group.open.id
+
+  from_port   = 80
+  to_port     = 80
+  ip_protocol = "tcp"
+  cidr_ipv4   = "0.0.0.0/0"
+}
+
+resource "aws_vpc_security_group_egress_rule" "outbound-open" {
+  security_group_id = aws_security_group.open.id
+  ip_protocol = -1
+  cidr_ipv4   = "0.0.0.0/0"
 }
