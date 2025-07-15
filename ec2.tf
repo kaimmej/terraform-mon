@@ -20,7 +20,7 @@ resource "aws_instance" "minimal-instance" {
   key_name                    = aws_key_pair.public.key_name
   vpc_security_group_ids      = [aws_security_group.open.id]
   user_data_replace_on_change = true
-  iam_instance_profile = aws_iam_role.ec2-role.name
+  iam_instance_profile        = aws_iam_role.ec2-role.name
   user_data                   = <<EOF
 #!/bin/bash
 service docker start

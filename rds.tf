@@ -16,7 +16,7 @@ resource "aws_secretsmanager_secret" "rds-mu" {
 }
 
 resource "aws_secretsmanager_secret_version" "rds-mu" {
-  secret_id = aws_secretsmanager_secret.rds-mu.id
+  secret_id     = aws_secretsmanager_secret.rds-mu.id
   secret_string = random_password.master-user.result
 }
 
@@ -37,8 +37,8 @@ resource "aws_vpc_security_group_egress_rule" "postgres-outbound" {
 
 resource "aws_rds_cluster" "rds" {
   cluster_identifier     = "aurora-cluster"
-  engine             = "aurora-postgresql"
-  engine_mode        = "provisioned"
+  engine                 = "aurora-postgresql"
+  engine_mode            = "provisioned"
   vpc_security_group_ids = [aws_security_group.rds.id]
   skip_final_snapshot    = true
   master_username        = "master"

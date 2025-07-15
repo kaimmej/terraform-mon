@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ec2-role" {
-  name = "mon-ec2-role"
+  name               = "mon-ec2-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -31,7 +31,7 @@ resource "aws_iam_role_policy" "get-db-password" {
       },
     ]
   })
-  role   = aws_iam_role.ec2-role.id
+  role = aws_iam_role.ec2-role.id
 }
 
 
