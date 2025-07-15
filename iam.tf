@@ -25,6 +25,7 @@ resource "aws_iam_role_policy" "get-db-password" {
       {
         Action = [
           "secretsmanager:Get*",
+          "secretsmanager:Describe*",
         ]
         Effect   = "Allow"
         Resource = aws_secretsmanager_secret.rds-mu.arn
