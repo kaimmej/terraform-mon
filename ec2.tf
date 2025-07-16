@@ -5,7 +5,7 @@ data "aws_vpc" "default" {
 }
 
 resource "aws_key_pair" "public" {
-  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOwp+5sSt53+244HeH6l1ZCM+jsEX3woB+K8Noi1eenZ"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCkI8MhSUcuCGQymb1cTzGwLs37biKFRB70h5WQkvesoS5mKXyAK3h4uPIThRxhI5Ehw5WJ++kCTBuMN0z3BJmXTQmZgxOPiORjUJULe9ELI4rZxoLsgBtY8ytaReI/P9jGHsKkPx2ebmwF7E+rZ6JHdOGRNLl0N7lc/XxOpOzxRPfDSfnydDoD9e+J+q3xh6DMD1gKGH2A3YrAl697lNm9BpmCkpSoAONE5nfjzbqn3KYjNF3ITQPZ/1XcJtAmWgwckLMa1yQdjoLUS3zpHSJc0ABCMf8IUQIJ/DDD2yIusqeoe4RGne1s3x64RlrPdBEB0NoGx4f5CmsSOeEiIHF1"
 }
 
 resource "aws_iam_instance_profile" "ec2-role" {
