@@ -12,7 +12,8 @@ resource "random_password" "master-user" {
 
 
 resource "aws_secretsmanager_secret" "rds-mu" {
-  name = "postgres-master-user"
+  name_prefix = "postgres-master-user"
+  recovery_window_in_days = 0
 }
 
 resource "aws_secretsmanager_secret_version" "rds-mu" {
