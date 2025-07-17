@@ -4,6 +4,11 @@ on:
     branches:
       - main
 
+
+concurrency:
+  group: terraform-mon-tf-apply
+  cancel-in-progress: false
+
 permissions:
   id-token: write
 jobs:
