@@ -3,7 +3,9 @@ on:
   push:
     branches:
       - main
-
+  pull_request:
+    types:
+      - opened
 
 concurrency:
   group: terraform-mon-tf-apply
@@ -28,6 +30,10 @@ jobs:
         with:
           terraform_version: "1.12.2"
       - run: terraform init
+      - id: plan
+        run: terraform plan
+        if: github.event_name == 'pull_request'
       - id: apply
+        if: github.event_name != 'pull_request'
         run: terraform apply -auto-approve
 
