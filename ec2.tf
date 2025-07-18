@@ -26,9 +26,8 @@ resource "aws_instance" "minimal-instance" {
 service docker start
 export PG_PASSWORD=$(aws secretsmanager get-secret-value --secret-id postgres-master-user --query SecretString)
 
+docker run -d -p 80:80 -e PG_PASSWORD=$${PG_PASSWORD} -e PG_USER=master nginx
 
-docker pull kaimmej/django_dockermon:latest
-docker compose up -d 
 EOF
 }
 
