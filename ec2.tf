@@ -15,7 +15,7 @@ resource "aws_iam_instance_profile" "ec2-role" {
 
 
 resource "aws_instance" "minimal-instance" {
-  ami                         = "ami-094440448bb7e69f6"
+  ami                         = "ami-0738bc713c45160fd"
   instance_type               = "t4g.small"
   key_name                    = aws_key_pair.public.key_name
   vpc_security_group_ids      = [aws_security_group.open.id]
@@ -26,9 +26,9 @@ resource "aws_instance" "minimal-instance" {
 service docker start
 export PG_PASSWORD=$(aws secretsmanager get-secret-value --secret-id postgres-master-user --query SecretString)
 
+
 docker pull kaimmej/django_dockermon:latest
 docker compose up -d 
-
 EOF
 }
 
