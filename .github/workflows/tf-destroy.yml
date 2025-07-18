@@ -1,20 +1,12 @@
-name: tf-apply.yml
+name: tf-destroy.yml
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types:
-      - opened
+  workflow_dispatch
 
 concurrency:
   group: terraform-mon-tf
   cancel-in-progress: false
-
-permissions:
-  id-token: write
 jobs:
-  plan_and_apply:
+  tf-destroy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,11 +21,4 @@ jobs:
       - uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.12.2"
-      - run: terraform init
-      - id: plan
-        run: terraform plan
-        if: github.event_name == 'pull_request'
-      - id: apply
-        if: github.event_name != 'pull_request'
-        run: terraform apply -auto-approve
-
+      - run: terraform destroy -auto-approve
