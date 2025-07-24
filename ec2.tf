@@ -75,7 +75,7 @@ services :
       dockerfile: Dockerfile
     image: kaimmej/django_dockermon:latest
     container_name: docker-container-pokedex
-    command: gunicorn dockermon.wsgi:application --bind 0.0.0.0:8000 --workers 3
+    command: "gunicorn dockermon.wsgi:application --bind 0.0.0.0:8000 --workers 3"
       ports:
         - "8000:8000"
 
