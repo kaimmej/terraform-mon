@@ -71,7 +71,7 @@ services :
   # Gunicorn is used as the WSGI server.
   app:
     build:
-      context: .
+      context: ./parentProject-dockermon
       dockerfile: Dockerfile
     image: kaimmej/django_dockermon:latest
     container_name: docker-container-pokedex
