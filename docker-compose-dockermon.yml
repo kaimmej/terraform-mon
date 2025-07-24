@@ -1,0 +1,27 @@
+name: django_dockermon
+version: '3.8'
+services :
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kaimmej/django_dockermon:latest
+    container_name: docker-container-pokedex
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./parentProject-dockermon:/app
+
+  db:
+    image: postgres:latest
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: my_user
+      POSTGRES_PASSWORD: my_password
+      POSTGRES_DB: my_database
+    ports:
+      - "5432:5432"
+
+
+
