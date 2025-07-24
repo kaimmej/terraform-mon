@@ -26,7 +26,37 @@ resource "aws_instance" "minimal-instance" {
 service docker start
 export PG_PASSWORD=$(aws secretsmanager get-secret-value --secret-id postgres-master-user --query SecretString)
 
-docker run -d -p 80:80 -e PG_PASSWORD=$${PG_PASSWORD} -e PG_USER=master nginx
+# docker run -d -p 80:80 -e PG_PASSWORD=$${PG_PASSWORD} -e PG_USER=master nginx
+
+# Write the docker-compose file to the instance
+cat << 'COMPOSE' > /home/ec2-user/docker-compose-dockermon.yml
+name: dockermon
+version: '3.8'
+services :
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kaimmej/django_dockermon:latest
+    container_name: docker-container-pokedex
+    ports:
+      - "80:8000"
+    volumes:
+      - ./parentProject-dockermon:/app
+
+  db:
+    image: postgres:latest
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: my_user
+      POSTGRES_PASSWORD: my_password
+      POSTGRES_DB: my_database
+    ports:
+      - "5432:5432"
+COMPOSE
+
+# Run docker-compose
 
 EOF
 }
