@@ -75,6 +75,8 @@ services :
     command: "gunicorn dockermon.wsgi:application --bind 0.0.0.0:8000 --workers 3"
     ports:
       - "8000:8000"
+    volumes:
+      - .:/app
 
   db:
     image: postgres:latest
