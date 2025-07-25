@@ -70,9 +70,6 @@ services :
   # Django application service.
   # Gunicorn is used as the WSGI server.
   app:
-    build:
-      context: ./parentProject-dockermon
-      dockerfile: Dockerfile
     image: kaimmej/django_dockermon:latest
     container_name: docker-container-pokedex
     command: "gunicorn dockermon.wsgi:application --bind 0.0.0.0:8000 --workers 3"
