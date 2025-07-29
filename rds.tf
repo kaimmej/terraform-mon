@@ -2,7 +2,7 @@
 
 resource "aws_security_group" "rds" {
   name   = "rds-allow-ec2"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = data.aws_vpc.main.id
 }
 
 resource "random_password" "master-user" {
@@ -27,7 +27,7 @@ resource "aws_vpc_security_group_ingress_rule" "postgres-port" {
   from_port         = 5432
   to_port           = 5432
   ip_protocol       = "tcp"
-  cidr_ipv4         = data.aws_vpc.default.cidr_block
+  cidr_ipv4         = data.aws_vpc.main.cidr_block
 }
 resource "aws_vpc_security_group_egress_rule" "postgres-outbound" {
   security_group_id = aws_security_group.rds.id
