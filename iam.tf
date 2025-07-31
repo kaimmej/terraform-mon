@@ -17,21 +17,21 @@ resource "aws_iam_role" "ec2-role" {
 EOF
 }
 
-resource "aws_iam_role_policy" "get-db-password" {
-  name = "get-db-password"
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "secretsmanager:Get*"
-        ]
-        Effect   = "Allow"
-        Resource = aws_secretsmanager_secret.rds-mu.arn
-      },
-    ]
-  })
-  role = aws_iam_role.ec2-role.id
-}
+# resource "aws_iam_role_policy" "get-db-password" {
+#   name = "get-db-password"
+#   policy = jsonencode({
+#     Version = "2012-10-17"
+#     Statement = [
+#       {
+#         Action = [
+#           "secretsmanager:Get*"
+#         ]
+#         Effect   = "Allow"
+#         Resource = aws_secretsmanager_secret.rds-mu.arn
+#       },
+#     ]
+#   })
+#   role = aws_iam_role.ec2-role.id
+# }
 
 
