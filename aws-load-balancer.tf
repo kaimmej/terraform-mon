@@ -66,6 +66,12 @@ resource "aws_lb_target_group" "app" {
   }
 }
 
+resource "aws_lb_target_group_attachment" "instance" {
+  target_group_arn = aws_lb_target_group.app.arn
+  target_id        = aws_instance.minimal-instance.id
+  port             = 8000
+}
+
 # ----------------- Load Balancer Security Groups -----------------
 resource "aws_security_group" "lb_sg" {
   name        = "lb-sg"
