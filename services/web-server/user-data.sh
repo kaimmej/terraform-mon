@@ -43,4 +43,4 @@ COMPOSE
 docker pull kaimmej/django_dockermon:testV3
 
 # RUN DOCKER-COMPOSE
-docker-compose -f compose.yml up -d
+docker-compose -f /home/ec2-user/compose.yml up -d
