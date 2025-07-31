@@ -9,6 +9,22 @@ resource "aws_vpc" "main" {
   }
 }
 
+# ----------------- ROUTE 53 -----------------
+resource "aws_route53_zone" "primary" {
+    name = "publicJon.com"
+}
+
+resource "aws_route53_record" "www" {
+    zone_id = aws_route53_zone.primary.zone_id
+    name    = "www.publicJon.com"
+    type    = "A"
+  alias {
+    name                   = aws_lb.main.dns_name
+    zone_id                = aws_lb.main.zone_id
+    evaluate_target_health = true
+  }
+}
+
 # ----------------- Internet Gateway -----------------
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
@@ -17,8 +33,6 @@ resource "aws_internet_gateway" "igw" {
     Name = "main-igw"
   }
 }
-
-
 
 # ----------------- Public Subnets -----------------
 resource "aws_subnet" "public_subnet_a" {
@@ -67,6 +81,7 @@ resource "aws_subnet" "private_subnet_b" {
 
 
 # ----------------- NAT Gateway -----------------
+#   Elastic IP for NAT Gateway
 resource "aws_eip" "nat_eip_a" {
 
   tags = {
@@ -74,14 +89,13 @@ resource "aws_eip" "nat_eip_a" {
   }
 }
 
+#   Nat Gateway 
 resource "aws_nat_gateway" "nat_gateway_a" {
   allocation_id = aws_eip.nat_eip_a.id
   subnet_id     = aws_subnet.public_subnet_a.id
-
   tags = {
     Name = "nat-gateway-a"
   }
-
   depends_on = [aws_internet_gateway.igw]
 }
 

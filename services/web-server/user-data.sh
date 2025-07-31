@@ -34,7 +34,7 @@ NGINXCONF
 # 
 # DOCKER COMPOSE
 # Write the docker-compose file to the instance
-cat << 'COMPOSE' > /home/ec2-user/docker-compose-dockermon.yml
+cat << 'COMPOSE' > /home/ec2-user/compose.yml
 name: dockermon
 version: '3.8'
 services:
@@ -43,13 +43,12 @@ services:
   # Django application service.
   # Gunicorn is used as the WSGI server.
   app:
-    image: kaimmej/django_dockermon:latest
-    container_name: docker-container-pokedex
-    # command: "gunicorn dockermon.wsgi:application --bind 0.0.0.0:8000 --workers 3"
+    image: kaimmej/django_dockermon:testV3
+    container_name: django
+    expose:
+      - "8000" 
     ports:
       - "${server_port}:${server_port}"
-    volumes:
-      - ./parentProject-dockermon:/app
 
   db:
     image: postgres:latest
@@ -74,5 +73,8 @@ services:
 
 COMPOSE
 
+# Pull the latest Docker image for the Django application
+docker pull kaimmej/django_dockermon:testV3
+
 # RUN DOCKER-COMPOSE
-docker-compose -f /home/ec2-user/docker-compose-dockermon.yml up -d
+docker-compose -f compose.yml up -d
