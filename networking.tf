@@ -10,12 +10,12 @@ resource "aws_vpc" "main" {
 }
 
 # ----------------- ROUTE 53 -----------------
-resource "aws_route53_zone" "primary" {
+data "aws_route53_zone" "primary" {
     name = "publicJon.com"
 }
 
 resource "aws_route53_record" "www" {
-    zone_id = aws_route53_zone.primary.zone_id
+    zone_id = data.aws_route53_zone.primary.zone_id
     name    = "www.publicJon.com"
     type    = "A"
   alias {
