@@ -36,4 +36,9 @@ jobs:
       - id: apply
         if: github.event_name != 'pull_request'
         run: terraform apply -auto-approve
-
+      - name: Store EC2 IP in S3
+        if: github.event_name != 'pull_request'
+        run: |
+          EC2_IP=$(terraform output -raw ec2-ip)
+          echo $EC2_IP > ec2-ip.txt
+          aws s3 cp ec2-ip.txt s3://terraformmon/ec2-ip.txt
