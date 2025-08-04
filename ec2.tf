@@ -19,7 +19,7 @@ resource "aws_key_pair" "public_Ben" {
 resource "aws_instance" "minimal-instance" {
   ami                         = "ami-0738bc713c45160fd"
   instance_type               = "t4g.small"
-  key_name                    = aws_key_pair.public_Jon.key_name
+  key_name                    = aws_key_pair.ssh_key.key_name
   vpc_security_group_ids      = [aws_security_group.open.id]
   user_data_replace_on_change = true
   iam_instance_profile        = aws_iam_role.ec2-role.name
