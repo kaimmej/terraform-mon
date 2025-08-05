@@ -35,7 +35,7 @@ resource "aws_lb_listener" "http" {
         redirect {
             protocol = "HTTPS"
             port     = "443"
-            status_code = "302"
+            status_code = "HTTP_302"
         }
     }
 }
