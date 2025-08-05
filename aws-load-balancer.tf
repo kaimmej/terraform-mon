@@ -1,5 +1,8 @@
-# ----------------- IAM -----------------
-
+# ----------------- SSL/TLS Certificate -----------------
+data "aws_acm_certificate" "cert" {
+  domain       = "www.publicJon.com"
+  most_recent  = true
+}
 
 
 
@@ -30,6 +33,19 @@ resource "aws_lb_listener" "http" {
         type             = "forward"
         target_group_arn = aws_lb_target_group.app.arn
     }
+}
+resource "aws_lb_listener" "https" {
+  load_balancer_arn = aws_lb.main.arn
+  port              = 443
+  protocol          = "HTTPS"
+
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = data.aws_acm_certificate.cert.arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.app.arn
+  }
 }
 
 # Description: Add a listener rule that sends requests that match ANY PATH to the target group. Which is the EC2 instance by default. 
@@ -82,6 +98,13 @@ resource "aws_security_group" "lb_sg" {
   ingress {
     from_port   = 80
     to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  # Allow inbound HTTPS traffic
+  ingress {
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
