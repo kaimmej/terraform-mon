@@ -55,7 +55,7 @@ resource "aws_lb_listener" "https" {
 
 # Description: Add a listener rule that sends requests that match ANY PATH to the target group. Which is the EC2 instance by default. 
 resource "aws_lb_listener_rule" "app" {
-    listener_arn = aws_lb_listener.http.arn
+    listener_arn = aws_lb_listener.https.arn
     priority     = 100
     
     condition {
